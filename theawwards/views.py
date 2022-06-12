@@ -7,9 +7,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .serializers import ProfileSerializer, ProjectSerializer
+from rest_framework.views import APIView
+from rest_framework import status
 
 
-# Create your views here.
 def index(request):
     projects=Project.objects.all()
     return render(request,'index.html',{'projects':projects})
@@ -28,6 +29,13 @@ def project_list(request):
     serializer = ProjectSerializer(projects, many=True)
     #return json
     return JsonResponse({'projects':serializer.data})
+
+# def project_list(request, format=None):
+#         serializers = ProjectSerializer(data=request.data)
+#         if serializers.is_valid():
+#             serializers.save()
+#             return JsonResponse(serializers.data, status=status.HTTP_201_CREATED)
+#         return JsonResponse(serializers.errors, status=status.HTTP_400_BAD_REQUEST)    
 
 
 def register(request):

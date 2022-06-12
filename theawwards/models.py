@@ -36,6 +36,15 @@ class Project(models.Model):
 
         return projects
 
+class Rating(models.Model):
+    design = models.IntegerField(blank=True,default=0)
+    usability = models.IntegerField(blank=True,default=0)
+    creativity = models.IntegerField(blank=True,default=0)
+    content = models.IntegerField(blank=True,default=0)
+    overall_score = models.IntegerField(blank=True,default=0)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)        
+
 
 
 

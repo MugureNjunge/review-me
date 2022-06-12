@@ -1,20 +1,26 @@
 {% load static %}
 
 <title>Sign-up</title>
+<div class="container">
+  <div class="row">
+    <div class="form-data">
+      <form action="" method="POST">
+      {% csrf_token %}
 
-<div class="form-data">
-  <form action="" method="POST">
-  {% csrf_token %}
+          {{ form.as_p }}
+          <br>
+      
+          <button type="submit" class="btn btn-dark" type="submit">Sign Up</button> 
 
-      {{ form.as_p }}
-      <br>
-  
-      <button type="submit" class="btn btn-dark" type="submit">Sign Up</button> 
+      </form>
+  </div> 
 
-  </form>
-  <div class="sign-up">
-  Already have an account? <a href="{% url 'sign-in' %}">Sign In</a>
+  <div class="row">  
+      <div class="sign-up">
+      Already have an account? <a href="{% url 'sign-in' %}">Sign In</a>
+      </div>
   </div>
-</div>
+  
+</div>    
 
 

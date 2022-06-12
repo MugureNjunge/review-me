@@ -29,13 +29,10 @@ class Project(models.Model):
         self.save()
 
 
-    @classmethod
-    def search_by_name(cls,search_term):
-        '''
-        method to search projects based on name
-        '''
-        projects=cls.objects.filter(name__icontains=search_term)
+    # @classmethod
+    # def search_by_name(cls,search_term):
+       
+    #     projects=cls.objects.filter(name__icontains=search_term)
 
-        return projects
+    #     return projects
 
-# Create your models here.

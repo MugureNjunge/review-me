@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
-from .forms import UserRegisterForm, ProfileForm
+from .forms import UserRegisterForm, ProfileForm, NewProjectForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -36,8 +36,6 @@ def rating_list(request):
     serializer = RatingSerializer(ratings, many=True)
     #return json
     return JsonResponse({'ratings':serializer.data})
-
-
 
 def register(request):
     
@@ -84,3 +82,20 @@ def signout(request):
     logout(request) 
 
     return redirect('sign-in')
+
+def newproject(request):
+    current_user = request.user
+    profile =Profile.objects.get(username=current_user)
+    if request.method =='POST':
+        form = NewProjectForm(request.POST,request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.username = current_user
+            # project.avatar = profile.avatar
+            # project.country = profile.country
+
+            project.save()
+    else:
+        form = NewProjectForm()
+
+    return render(request,'new-project.html',{"form":form})    

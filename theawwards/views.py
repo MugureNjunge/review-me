@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import *
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, ProjectSerializer
 
 
 # Create your views here.
@@ -21,6 +21,13 @@ def profile_list(request):
     serializer = ProfileSerializer(profiles, many=True)
     #return json
     return JsonResponse({'profiles':serializer.data})
+
+def project_list(request):
+    projects = Project.objects.all()
+    #serialize them
+    serializer = ProjectSerializer(projects, many=True)
+    #return json
+    return JsonResponse({'projects':serializer.data})
 
 
 def register(request):

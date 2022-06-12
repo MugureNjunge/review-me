@@ -16,13 +16,13 @@ def index(request):
     return render(request,'index.html',{'projects':projects})
 
 #an api to handle the requests
-# def profile_list(request):
-#     #get all profiles
-#     profiles = Profile.objects.all()
-#     #serialize them
-#     serializer = ProfileSerializer(profiles, many=True)
-#     #return json
-#     return JsonResponse({'profiles':serializer.data})
+def profile_list(request):
+    #get all profiles
+    profiles = Profile.objects.all()
+    #serialize them
+    serializer = ProfileSerializer(profiles, many=True)
+    #return json
+    return JsonResponse({'profiles':serializer.data})
 
 
 # def register(request):

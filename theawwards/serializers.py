@@ -10,3 +10,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=Project
         fields=('title','project_image','profile','description', 'link')        
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Project
+        fields=('design','usability','content','overall_score', 'project', 'profile')        

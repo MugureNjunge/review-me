@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import *
-from .serializers import ProfileSerializer, ProjectSerializer
+from .serializers import ProfileSerializer, ProjectSerializer, RatingSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -29,6 +29,14 @@ def project_list(request):
     serializer = ProjectSerializer(projects, many=True)
     #return json
     return JsonResponse({'projects':serializer.data})
+
+def rating_list(request):
+    ratings = Rating.objects.all()
+    #serialize them
+    serializer = RatingSerializer(ratings, many=True)
+    #return json
+    return JsonResponse({'ratings':serializer.data})
+
 
 
 def register(request):

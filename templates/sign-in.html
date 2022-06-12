@@ -1,71 +1,32 @@
-
 {% load static %}
+<title>Sign-in</title>
 
-{% block content %}
 <div class="container">
-  <div class="row">
-    <!-- Empty div -->
 
-    <div class="col-md-4 phone-section">
+    <div class="full">
+        <form action="{% url 'sign-in'%}" method="POST">
+        {%csrf_token%}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" aria-describedby="">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+    
+        </form>
+    </div>  
+    
+    <div class="sign-up">
+       Not yet a member? <a href="{% url 'sign-up' %}">Sign up</a>
     </div>
 
-
-
-    <div class="col-md-4 form-section">
-
-      {% if form.errors %}
-        <p>Password or Username is incorrect</p>
-      {% endif %}
-
-      <div class="panel panel-default" style="margin-top:200px;">
-
-        <div class="panel-body">
-
-          <div class="text-center">
-          <form action="/accounts/login/" method="post">
-
-            {% csrf_token%}
-          
-
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary login-button" value="Log in">
-
-            </div>
-            <input type="hidden" name="next" value="/">
-
-          </form>
+    <div class="col-md-7 mx-0 px-0 log-img-box">
+        <div class="log-img-overlay"></div>
+        <div class="w-100 d-flex justify-content-center">
+            <img class="login-img w-100" src="{% static 'images/background.jpg' %}" alt="">
         </div>
-        </div>
-
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-body text-center">
-          <p> Don't have  an account? <span><a class="" href="signup.html">Sign Up</a></span></p>
-        </div>
-      </div>
-
     </div>
-    <!-- Empty div -->
-    <div class="col-md-4"></div>
-  </div>
-
 </div>
-
-<style>
-.panel{
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(../img/background.jpg) fixed;
-}
-p, label,a{
-  color:white;
-  font-size: 15px;
-}
-.panel-default{
-  border-color: inherit;
-}
-input{
-  text-align: center;
-}
-
-</style>
-{% endblock %}

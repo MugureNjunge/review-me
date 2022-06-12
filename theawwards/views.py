@@ -1,11 +1,10 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect, JsonResponse
-# from .forms import UserRegisterForm
+from django.http import JsonResponse
+from .forms import UserRegisterForm, ProfileForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-# from .forms import ProfileForm,NewProjectForm
 from .models import *
 from .serializers import ProfileSerializer
 
@@ -17,7 +16,6 @@ def index(request):
 
 #an api to handle the requests
 def profile_list(request):
-    #get all profiles
     profiles = Profile.objects.all()
     #serialize them
     serializer = ProfileSerializer(profiles, many=True)
@@ -25,48 +23,48 @@ def profile_list(request):
     return JsonResponse({'profiles':serializer.data})
 
 
-# def register(request):
+def register(request):
     
-#     if request.method == "POST":
-#         form = UserRegisterForm(request.POST)
-#         if form.is_valid():
-#             form.save()
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-#             # Profile.get_or_create(user=request.user)
+            # Profile.get_or_create(user=request.user)
             
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password1']
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
 
-#             user = authenticate(username=username, password=password)
-#             login(request,user)
-#             messages.success(request, f'Account created for { username }!!')
-#             return redirect('index')
+            user = authenticate(username=username, password=password)
+            login(request,user)
+            messages.success(request, f'Account created for { username }!!')
+            return redirect('index')
 
-#     else:
-#         form = UserRegisterForm()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'sign-up.html', context)
+    else:
+        form = UserRegisterForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'sign-up.html', context)
 
-# def signin(request):
+def signin(request):
 
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('index')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
         
-#         else:
-#             messages.success(request,('You information is not valid'))
-#             return redirect('sign-in')
+        else:
+            messages.success(request,('You information is not valid'))
+            return redirect('sign-in')
 
-#     else:
-#         return render(request,'sign-in.html')
+    else:
+        return render(request,'sign-in.html')
 
-# def signout(request):  
-#     logout(request) 
+def signout(request):  
+    logout(request) 
 
-#     return redirect('sign-in')
+    return redirect('sign-in')

@@ -25,3 +25,8 @@ class ProfileForm(ModelForm):
             'fullname': forms.TextInput(attrs={'class':'form-control'}),
             'bio': forms.Textarea(attrs={'class':'form-control'}),
         }
+
+# class NewProjectForm(forms.ModelForm):
+#     class Meta:
+#         model = Project
+#         exclude = ['user']

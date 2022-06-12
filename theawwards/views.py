@@ -30,13 +30,6 @@ def project_list(request):
     #return json
     return JsonResponse({'projects':serializer.data})
 
-# def project_list(request, format=None):
-#         serializers = ProjectSerializer(data=request.data)
-#         if serializers.is_valid():
-#             serializers.save()
-#             return JsonResponse(serializers.data, status=status.HTTP_201_CREATED)
-#         return JsonResponse(serializers.errors, status=status.HTTP_400_BAD_REQUEST)    
-
 
 def register(request):
     

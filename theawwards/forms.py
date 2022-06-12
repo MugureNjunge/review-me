@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
-from .models import Profile, Project
+from .models import Profile, Project, Rating
 
 
 class UserRegisterForm(UserCreationForm):
@@ -30,3 +30,9 @@ class NewProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         exclude = ['user']
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model=Rating
+        exclude=['overall_score','profile','project']
+

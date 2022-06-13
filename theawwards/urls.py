@@ -15,7 +15,6 @@ urlpatterns = [
     path('profile/<int:user_id>', views.UserProfile, name='profile'),
     path('profile/edit', views.EditProfile, name="editprofile"),
 
-    path('profiles/<int:id>', views.profile_detail),
     path('sign-up/',views.register,name='sign-up'),
     path('accounts/sign-in/',views.signin,name='sign-in'),
     path('sign-out/', views.signout, name='sign-out'),
@@ -23,6 +22,8 @@ urlpatterns = [
     
     path('newproject', views.NewProject, name='newproject'),
     path('projects/',views.project_list),
+    path('profiles/<int:id>', views.profile_detail),
+
 
 ]
 

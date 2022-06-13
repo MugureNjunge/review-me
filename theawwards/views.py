@@ -157,18 +157,14 @@ def signout(request):
     return redirect('sign-in')
 
 def NewProject(request):
-    current_user = request.user
-    profile =Profile.objects.get(username=current_user)
-    if request.method =='POST':
-        form = NewProjectForm(request.POST,request.FILES)
+    user = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form=NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
-            project.username = current_user
-            # project.avatar = profile.avatar
-            # project.country = profile.country
-
+            project.user = user
             project.save()
-    else:
-        form = NewProjectForm()
-
-    return render(request,'new-project.html',{"form":form})    
+            return redirect('index')
+        else:
+            form=NewProjectForm()
+        return render(request, 'newproject.html', {"form":form, "user":user})       

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Background image -->
+<div class="p-5 mt-4">
+    <p class="text-center text-muted" style="font-weight: light;">
+    Design, creativity and innovation in one place..</p>
+</div>
+<div id="intro" class="bg-image">
+    <div class="container d-flex align-items-center justify-content-center text-center h-100">
+       <div class="text-white">
+            <h1 class="mb-3">The Awwards</h1>
+            <h5 class="mb-4 ">Usability ~ Design ~ Content ~ Creativity</h5>
+            <div class="input-group align-items-center justify-content-center">
+                    <div class="form-outline">
+                    <input type="search" id="form1" class="form-control" />
+                    <label class="form-label" for="form1">Search Project</label>
+                    </div>
+                    <button type="button" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    </button>
+            </div>
+       </div>  
+    </div>
+
+    <div class="posts">
+        {% for project in projects %}
+        <article class="post">
+            <div class="post__header">
+                
+                    <div class="project_detail">
+                        {% if post.user.profile.image %}
+                        <a href="{{post.user.profile.image.url}}" class="post__avatar">
+                            
+                            <img src="{{post.user.profile.image.url}}" alt="User Picture">
+                            
+                        </a>
+                        {% endif %}
+                        <a href="{{post.user.username}}" class="post__user">{{ project.user.username }}</a>
+                        
+                    </div>
+                
+                <button class="post__more-options">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="6.5" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                        <circle cx="12" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                        <circle cx="17.5" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="post__content">
+                <div class="post__medias">
+                    <a href="{% url 'post-details' post.id %}"><img class="post__media" src="{{ post.picture.url }}" alt="Post Content" style="width: 700px; height: 348px; object-fit: cover;"></a>
+
+                </div>
+            </div>
+
+
+</div>
+<!-- Background image -->
+
+{% endblock content %}

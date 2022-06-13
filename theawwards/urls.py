@@ -9,11 +9,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('',views.index, name='index'),
-    
-    path('profiles/',views.profile_list),
         
     path('profile/<int:user_id>', views.UserProfile, name='profile'),
     path('profile/edit', views.EditProfile, name="editprofile"),
+
+    path('profiles/',views.profile_list),
+    path('profiles/<int:id>', views.profile_detail),
 
     path('sign-up/',views.register,name='sign-up'),
     path('accounts/sign-in/',views.signin,name='sign-in'),
@@ -22,7 +23,8 @@ urlpatterns = [
     
     path('newproject', views.NewProject, name='newproject'),
     path('projects/',views.project_list),
-    path('profiles/<int:id>', views.profile_detail),
+    path('projects/<int:id>', views.project_detail),
+    
 
 
 ]

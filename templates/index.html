@@ -1,30 +1,143 @@
-{% extends 'base.html' %}
-{% load static %}
-
+{%extends 'base.html'%}
 {% block content %}
-<!-- Background image -->
-<div class="p-5 mt-4">
-    <p class="text-center text-muted" style="font-weight: light;">
-    Design, creativity and innovation in one place..</p>
-</div>
-<div id="intro" class="bg-image">
-    <div class="container d-flex align-items-center justify-content-center text-center h-100">
-       <div class="text-white">
-            <h1 class="mb-3">The Awwards</h1>
-            <h5 class="mb-4 ">Usability ~ Design ~ Content ~ Creativity</h5>
-            <div class="input-group align-items-center justify-content-center">
-                    <div class="form-outline">
-                    <input type="search" id="form1" class="form-control" />
-                    <label class="form-label" for="form1">Search Project</label>
-                    </div>
-                    <button type="button" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                    </button>
-            </div>
-       </div>  
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="container">
+    <h1 class="media-heading text-center"><b>The Awwards</b></h1>
+    <hr>
+                 {%if messages%}
+                    {%for message in messages%}
+                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                              {{message}}
+                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                     {%endfor%}
+                  {%endif%}   
+    <br> 
+    <div class="container" >
+      <div class="row">
+        {% for project in projects %}
+            
+              <div class="col-9">
+                <div class="card mr-0" style="max-width:70rem; margin-top:5px;background-color:#FCFCFC">
+                   <img src="{{project.project_image.url}}" data-target="#extraModal{{project.id}}" data-toggle="modal"class="card-img-top">
+                     <div class="card-body">
+                       <div class="media">
+                         <div class="media-left media-top">
+                            <hr class="text-dark">
+                             <div class="media-body">
+                              <h5 class="media-heading" style="padding:10px; margin:5px"><b>{{ project.title }}</b></h5>
+                             
+                              <h6 class="media-content fs-5" style="padding:10px;">
+                                 <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" class="" style="height: 50px;">
+                                  By: <b>{{ project.profile.user }}</b>
+                              <div class="text-dark">
+                                <button class="btn  btn-sm btn-outline-secondary one d-flex justify-content-end  fs-5" style="float:right; padding:10px; margin:5px;color:black;border-radius:27px;">Votes: {{ project.rating.count| floatformat  }}</button>
+
+                                <button class="btn btn-sm three d-flex justify-content-end fs-5" style="float:right; padding:10px; margin:5px;color:#ECD06F;border-radius:25px;">usability: {{ project.usability_rating| floatformat  }}</button>
+
+                                <button class="btn four d-flex justify-content-end fs-5" style="float:right; padding:10px; margin:5px;color:#2699AA;border-radius:25px;">content: {{ project.content_rating| floatformat  }}</button>
+                                
+                                <button class="btn two d-flex justify-content-end fs-5" style="float:right; padding:10px; margin:5px;color:#DF6C4F;border-radius:25px;">design: {{ project.design_rating| floatformat  }}</button>
+                                <a href="/profile/{{project.profile.id}}" title="profile">
+                                  <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius:30px;"><a class="fs-5"href="{{ project.link }}" style="text-decoration:none;padding:10px; margin-top:5px; color:black;" target="_blank">Site</a></button>
+                                </a>
+                               <br>
+                              </div>
+                         </div>
+                       </div>
+                     </div>
+                </div>
+              </div>
+            <br>
+            <div class="col-2 ml-2" style="border-top: 2px solid #111;background-color: #ffffff;border-radius:10px; box-shadow: 2px 2px 5px rgba(3,3,3,0.5);">
+              
+            <hr>
+                <form action="{%url 'review' pk=project.id%}" method="post" enctype="multipart/form-data" id="sema">
+                    {%csrf_token%}
+                        {{ form|crispy}}
+                        <hr> 
+                    <button class="btn btn-sm btn-outline-secondary btn-block mr-2"style="border-radius: 5px;"type="submit">Vote</button>
+                    <br>
+                </form> 
+              <br>
+          </div>
+          <br><br><hr>
+        {% endfor %}
     </div>
-
+    
 </div>
-<!-- Background image -->
+<br>
 
-{% endblock content %}
+<div class="container media shadow p-3 mb-4 bg-body rounded-top border-top border-2 border-secondary">
+ <div class="row">
+    {% for project in projects %}
+    <div class="col-2"></div>
+    <div class="col-5">
+      <hr>
+      <br>
+          <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" class="" style="height: 150px;">
+         <h3 style="padding:10px; margin:5px"> <b>{{ project.profile.user }}</b></h3>
+         <br>
+     
+    </div> 
+     <div class="col-5"style="border-bottom: 1px solid #111;border-radius:10px; box-shadow: 3px 3px 3px rgba(3,3,3,0.5);">
+      <br><br>
+            <h4 class="media-heading">Project Title: <b>{{ project.title }}</b></h4>
+            <br>
+          
+          {% for rating in ratings %}
+              {% if project.id == review.project.id %}
+                 <p><b> Comment:</b> {{review.comment}}</p> 
+                  <h5>By <strong>{{review.user}}  </strong></h5>
+                 
+                  <p><b>Rates:</b> usability: <b>{{rating.usability}}</b>, content: <b>{{rating.content}} </b>, design: <b>{{rating.design}}</b></p>
+                 <p>{{ project.average_score | floatformat }}</p>
+                 <hr>
+              {% endif %}
+            {%endfor%} 
+     </div> 
+    {% endfor %} 
+  </div>
+</div>
+{% for project in projects %}
+<!-- Modal -->
+<div class="modal fade" id="extraModal{{project.id}}" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLongTitle"> <b> {{project.title}} </b> Published by  <b>{{project.name}}</b></h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </div>
+      <div class="modal-body">
+        
+        <img class="card-img-top" class="img-responsive" src="{{project.project_image.url}}" data-target="#extraModal{{project.id}}" data-toggle="modal" size="80px200">
+        <br>
+        <hr>
+       
+        <p><b>About: </b> {{project.description}}</p>
+        
+           <button class="btn three d-flex justify-content-end" style="float:right; padding:10px; margin:px;color:#ECD06F;border-radius:25px;">usability: {{ project.usability_rating| floatformat  }}</button>
+
+           <button class="btn four d-flex justify-content-end " style="float:right; padding:10px; margin:px;color:#2699AA;border-radius:25px;">content: {{ project.content_rating| floatformat  }}</button>
+    
+           <button class="btn two d-flex justify-content-end " style="float:right; padding:10px; margin:px;color:#DF6C4F;border-radius:25px;">design: {{ project.design_rating| floatformat  }}</button>
+        <hr>
+        <div class="modal-footer">
+            <button class="btn  btn-sm btn-outline-secondary " style="padding:10px; margin:5px;color:black;float:left;">Votes: {{ project.ratings.count| floatformat  }}</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} 
+{% endblock %}
+<hr>
+<br>
+{% block scripts %} {{block.super}}
+  <script type="text/javascript" src="{ % static 'js/script.js'% }"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>{% bootstrap_javascript %}
+  <script type="text/javascript" src="{%static 'js/script.js'%}"></script>
+{% endblock %}

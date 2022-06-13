@@ -19,7 +19,21 @@ def UserProfile(request,user_id):
         profile=Profile.objects.get(id=user_id)
         context = {'profile':profile}
         return render(request, 'profile.html', context)
-        
+
+def EditProfile(request):
+    current_user=request.user
+    profile = Profile.objects.filter(id=current_user.id).first()
+    if request.method == 'POST':
+        profileform = ProfileForm(request.POST,request.FILES,instance=profile)
+        if  profileform.is_valid:
+            profileform.save(commit=False)
+            profileform.user=request.user
+            profileform.save()
+            return redirect('index')
+    else:
+        form=ProfileForm(instance=profile)
+    return render(request,'editprofile.html',{'form':form})        
+
 #an api to handle the requests
 def profile_list(request):
     profiles = Profile.objects.all()

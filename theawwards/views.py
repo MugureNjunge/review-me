@@ -15,6 +15,11 @@ def index(request):
     projects=Project.objects.all()
     return render(request,'index.html',{'projects':projects})
 
+def UserProfile(request,user_id):
+        profile=Profile.objects.get(id=user_id)
+        context = {'profile':profile}
+        return render(request, 'profile.html', context)
+        
 #an api to handle the requests
 def profile_list(request):
     profiles = Profile.objects.all()

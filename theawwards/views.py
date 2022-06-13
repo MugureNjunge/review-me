@@ -59,16 +59,16 @@ def profile_detail(request,id, format=None):
     except Profile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method =='GET':
-        serializer = ProfileSerializer(profiles)
+        serializer = ProfileSerializer(profile)
         return Response(serializer.data)
     elif request.method =='PUT':
-        serializer = ProfileSerializer(profiles, data=request.data)
+        serializer = ProfileSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method =='DELETE':
-        profiles.delete()
+        profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)            
 
 @api_view(['GET','POST'])
@@ -85,6 +85,25 @@ def project_list(request, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET','PUT','DELETE'])
+def project_detail(request,id, format=None):
+    try:
+        Project.objects.get(pk=id)
+    except Project.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method =='GET':
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
+    elif request.method =='PUT':
+        serializer = ProjectSerializer(project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method =='DELETE':
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)            
 
 def rating_list(request):
     ratings = Rating.objects.all()

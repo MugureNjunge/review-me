@@ -71,12 +71,20 @@ def profile_detail(request,id, format=None):
         profiles.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)            
 
-def project_list(request):
-    projects = Project.objects.all()
-    #serialize them
-    serializer = ProjectSerializer(projects, many=True)
-    #return json
-    return JsonResponse({'projects':serializer.data})
+@api_view(['GET','POST'])
+def project_list(request, format=None):
+    #get all profiles
+    if request.method =='GET':
+        projects = Project.objects.all()
+        #serialize them
+        serializer = ProjectSerializer(projects, many=True)
+        #return json
+        return Response(serializer.data)
+    if request.method =='POST':
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 def rating_list(request):
     ratings = Rating.objects.all()

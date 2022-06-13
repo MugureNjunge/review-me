@@ -62,3 +62,67 @@
 <!-- Background image -->
 
 {% endblock content %}
+
+
+{% for project in projects %}
+<!-- Modal -->
+<div class="modal fade" id="extraModal{{project.id}}" tabindex="-1" role="dialog" aria-labelledby="extraModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLongTitle"> <b> {{project.title}} </b> Published by  <b>{{project.name}}</b></h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </div>
+      <div class="modal-body">
+        
+        <img class="card-img-top" class="img-responsive" src="{{project.project_image.url}}" data-target="#extraModal{{project.id}}" data-toggle="modal" size="80px200">
+        <br>
+        <hr>
+       
+        <p><b>About: </b> {{project.description}}</p>
+        
+           <button class="btn three d-flex justify-content-end" style="float:right; padding:10px; margin:px;color:#ECD06F;border-radius:25px;">usability: {{ project.usability_rating| floatformat  }}</button>
+
+           <button class="btn four d-flex justify-content-end " style="float:right; padding:10px; margin:px;color:#2699AA;border-radius:25px;">content: {{ project.content_rating| floatformat  }}</button>
+    
+           <button class="btn two d-flex justify-content-end " style="float:right; padding:10px; margin:px;color:#DF6C4F;border-radius:25px;">design: {{ project.design_rating| floatformat  }}</button>
+        <hr>
+        <div class="modal-footer">
+            <button class="btn  btn-sm btn-outline-secondary " style="padding:10px; margin:5px;color:black;float:left;">Votes: {{ project.ratings.count| floatformat  }}</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} 
+
+
+{% for project in projects %}
+<div class="col-2"></div>
+<div class="col-5">
+  <hr>
+  <br>
+      <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" class="" style="height: 150px;">
+     <h3 style="padding:10px; margin:5px"> <b>{{ project.profile.user }}</b></h3>
+     <br>
+ 
+</div> 
+ <div class="col-5"style="border-bottom: 1px solid #111;border-radius:10px; box-shadow: 3px 3px 3px rgba(3,3,3,0.5);">
+  <br><br>
+        <h4 class="media-heading">Project Title: <b>{{ project.title }}</b></h4>
+        <br>
+      
+      {% for rating in ratings %}
+          {% if project.id == review.project.id %}
+             <p><b> Comment:</b> {{review.comment}}</p> 
+              <h5>By <strong>{{review.user}}  </strong></h5>
+             
+              <p><b>Rates:</b> usability: <b>{{rating.usability}}</b>, content: <b>{{rating.content}} </b>, design: <b>{{rating.design}}</b></p>
+             <p>{{ project.average_score | floatformat }}</p>
+             <hr>
+          {% endif %}
+        {%endfor%} 
+ </div> 
+{% endfor %} 

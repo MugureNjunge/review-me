@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from .forms import UserRegisterForm, ProfileForm, NewProjectForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,8 +7,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .serializers import ProfileSerializer, ProjectSerializer, RatingSerializer
-from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 def index(request):
@@ -35,12 +36,20 @@ def EditProfile(request):
     return render(request,'editprofile.html',{'form':form})        
 
 #an api to handle the requests
-def profile_list(request):
-    profiles = Profile.objects.all()
-    #serialize them
-    serializer = ProfileSerializer(profiles, many=True)
-    #return json
-    return JsonResponse({'profiles':serializer.data})
+@api_view(['GET','POST'])
+def profile_list(request, format=None):
+    #get all profiles
+    if request.method =='GET':
+        profiles = Profile.objects.all()
+        #serialize them
+        serializer = ProfileSerializer(profiles, many=True)
+        #return json
+        return Response(serializer.data)
+    if request.method =='POST':
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 def project_list(request):
     projects = Project.objects.all()

@@ -51,6 +51,26 @@ def profile_list(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(['GET','PUT','DELETE'])
+def profile_detail(request,id, format=None):
+    profiles = Profile.objects.all()
+    try:
+        Profile.objects.get(pk=id)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method =='GET':
+        serializer = ProfileSerializer(profiles)
+        return Response(serializer.data)
+    elif request.method =='PUT':
+        serializer = ProfileSerializer(profiles, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method =='DELETE':
+        profiles.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)            
+
 def project_list(request):
     projects = Project.objects.all()
     #serialize them
@@ -71,8 +91,6 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-
-            # Profile.get_or_create(user=request.user)
             
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
@@ -111,7 +129,7 @@ def signout(request):
 
     return redirect('sign-in')
 
-def newproject(request):
+def NewProject(request):
     current_user = request.user
     profile =Profile.objects.get(username=current_user)
     if request.method =='POST':

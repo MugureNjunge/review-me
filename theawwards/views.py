@@ -78,7 +78,8 @@ def profile_list(request, format=None):
 
 @api_view(['GET','PUT','DELETE'])
 def profile_detail(request,id, format=None):
-    profiles = Profile.objects.all()
+    current_user=request.user
+    profile = Profile.objects.filter(id=current_user.id).first()
     try:
         Profile.objects.get(pk=id)
     except Profile.DoesNotExist:
@@ -98,11 +99,11 @@ def profile_detail(request,id, format=None):
 
 @api_view(['GET','POST'])
 def project_list(request, format=None):
-    #get all profiles
+    #get all projects
     if request.method =='GET':
-        projects = Project.objects.all()
+        project = Project.objects.all()
         #serialize them
-        serializer = ProjectSerializer(projects, many=True)
+        serializer = ProjectSerializer(project, many=True)
         #return json
         return Response(serializer.data)
     if request.method =='POST':
@@ -113,6 +114,7 @@ def project_list(request, format=None):
 
 @api_view(['GET','PUT','DELETE'])
 def project_detail(request,id, format=None):
+    project = Project.objects.filter().first()
     try:
         Project.objects.get(pk=id)
     except Project.DoesNotExist:

@@ -28,7 +28,7 @@
 
                 <div class="col-md-4 profile-image">
 
-                    <img src="{{profile.profile_pic.url}}" alt="" style="width: 200px; height: 200px;">
+                    <img src="{{user.profile.profile_pic.url}}" alt="" style="width: 200px; height: 200px;">
 
                 </div>
 
@@ -39,31 +39,24 @@
                     <a style="text-decoration: none;" href="{% url 'sign-out' %}" class="btn profile-edit-btn">Logout</a>
                     <br>
                     {% endif %}
-                        {% if profile.first_name %}
-                        <h6 class="profile-user-name">{{profile.fullname}}</h6> <br>
-                        {% endif %}
-                        <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5>
+                        
+                        <h6 class="profile-user-name">{{user.profile.fullname}}</h6> <br>
+                        
+                        <!-- <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5> -->
 
 
-                    {% if profile.bio %}
-                    <p><span class="profile-real-name"></span>◉Bio: {{profile.bio}}</p>
-                    {% endif %}
-                    {% if profile.location %}
-                    <p><span class="profile-real-name"></span>◉Location:  {{profile.location}}</p>
-                    {% endif %}
-                    {% if profile.url %}
-                    <!-- <p><span class="profile-real-name"></span>◉Website: <a href="{{ profile.url }}">{{profile.url}}</a></p> -->
-                    {% endif %}
+                    
+                    <p><span class="profile-real-name"></span>◉Bio: {{user.profile.bio}}</p>
+                    
+                    
+                    <p><span class="profile-real-name"></span>◉Location:  {{user.profile.location}}</p>
+                                        
                     <br><br>
                     <div class="profile-user-settings">
-                        <a  href="{% url 'profile' %}"  class="btns profiele-edit-btn">Projects</a>
+                        <a  href="{% url 'profile' %}"  class="btns profiele-edit-btn">Edit Profile</a>
                     </div>
-                        
-                        
-                    
+                                                                   
             </div>
-
-                
 
                 <div class="profile-bio">
                     

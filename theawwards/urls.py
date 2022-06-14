@@ -17,8 +17,8 @@ urlpatterns = [
     path('accounts/sign-in/',views.signin,name='sign-in'),
     path('sign-out/', views.signout, name='sign-out'),
 
-    path('profile/<int:user_id>', views.UserProfile, name='profile'),
-    path('profile/edit', views.EditProfile, name='editprofile'),
+    path('profile/', views.UserProfile, name='profile'),
+    path('profile/edit', views.EditProfile, name='profile/edit'),
     path('newproject', views.NewProject, name='newproject'),
 
     path('search/', views.search, name='search'),

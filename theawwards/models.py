@@ -27,10 +27,6 @@ class Profile(models.Model):
     def save_profile(self):
         self.save() 
 
-    @classmethod
-    def search_by_user(cls, user):
-        projects = cls.objects.filter(user=user)
-        return projects  
     
 class Project(models.Model):
     title= models.CharField(max_length=100)
@@ -50,6 +46,11 @@ class Project(models.Model):
     def search_by_projects(cls, search_term):
         projects = cls.objects.filter(title__icontains=search_term)
         return projects
+
+    @classmethod
+    def search_by_user(cls, user):
+        projects = cls.objects.filter(user=user)
+        return projects      
     
     def save_project(self):
         self.save()

@@ -42,9 +42,9 @@ def index(request):
 
     return render(request,"index.html",{"projects":projects, "form": form,"profile":profile})
     
-
+@login_required(login_url='/accounts/sign-in/')
 def UserProfile(request):
-    current_user = request.user()
+    current_user = request.user
     user = current_user
     projects = Project.search_by_user(user)
     return render(request, 'profile.html',{'projects':projects})
@@ -53,16 +53,16 @@ def UserProfile(request):
 def EditProfile(request):
     
     user = request.user.id
-    # current_user=request.user
+    current_user=request.user
     profile = Profile.objects.get(user_id=user)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
+            profile.user = current_user
             profile.profile_pic = form.cleaned_data.get('profile_pic')
             profile.fullname = form.cleaned_data.get('fullname')
             profile.location = form.cleaned_data.get('location')
-            # profile.url = form.cleaned_data.get('url')
             profile.bio = form.cleaned_data.get('bio')
             profile.save()
             return redirect('profile', profile.user.username)
@@ -72,7 +72,7 @@ def EditProfile(request):
     context = {
         'form':form,
     }
-    return render(request, 'editprofile.html', context)
+    return render(request, 'profile/edit.html', context)
 
 #an api to handle the requests
 @api_view(['GET','POST'])
@@ -191,7 +191,7 @@ def signout(request):
 
     return redirect('sign-in')
           
-
+@login_required(login_url='/accounts/sign-in/')
 def NewProject(request):
     current_user = request.user
     if request.method == 'POST':
@@ -219,7 +219,7 @@ def search(request):
         message = "You haven't searched for any project"
         return render(request,'search.html',{"message":message})        
 
-@login_required
+@login_required(login_url='/accounts/sign-in/')
 def add_rating(request, *args, **kwargs):
     pk = kwargs.get('pk')
     project = get_object_or_404(Project, pk=pk)

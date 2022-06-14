@@ -13,7 +13,7 @@ urlpatterns = [
     path('profile/<int:user_id>', views.UserProfile, name='profile'),
     path('profile/edit', views.EditProfile, name="editprofile"),
 
-    path('profiles/',views.profile_list),
+    path('profiles/',views.profile_list, name='profile_api'),
     path('profiles/<int:id>', views.profile_detail),
 
     path('sign-up/',views.register,name='sign-up'),
@@ -22,7 +22,7 @@ urlpatterns = [
     
     
     path('newproject', views.NewProject, name='newproject'),
-    path('projects/',views.project_list),
+    path('projects/',views.project_list, name='project_api'),
     path('projects/<int:id>', views.project_detail),
 
     path('search/', views.search, name='search'),

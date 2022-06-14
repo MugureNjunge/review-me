@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import *
+from django.contrib.auth.decorators import login_required
 from .serializers import ProfileSerializer, ProjectSerializer, RatingSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -46,6 +47,7 @@ def UserProfile(request,user_id):
         context = {'profile':profile}
         return render(request, 'profile.html', context)
 
+@login_required
 def EditProfile(request):
     current_user=request.user
     profile = Profile.objects.filter(id=current_user.id).first()
@@ -178,11 +180,13 @@ def signin(request):
     else:
         return render(request,'sign-in.html')
 
+@login_required
 def signout(request):  
     logout(request) 
 
     return redirect('sign-in')
 
+@login_required
 def NewProject(request):
     user = Profile.objects.get(user=request.user)
     if request.method == "POST":
@@ -194,7 +198,7 @@ def NewProject(request):
             return redirect('index')
         else:
             form=NewProjectForm()
-        return render(request, 'newproject.html', {"form":form, "user":user})   
+        return render(request, 'new-project.html', {"form":form, "user":user})   
 
 def search(request):
     if 'title' in request.GET and request.GET["title"]:

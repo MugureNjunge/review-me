@@ -27,9 +27,17 @@ class ProfileForm(ModelForm):
         }
 
 class NewProjectForm(forms.ModelForm):
+
+    project_image = forms.ImageField(required=True)
+    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Title'}), required=True)
+    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Description'}), required=True)
+    link = forms.CharField(widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Link'}), required=True)
+
+
     class Meta:
         model = Project
-        exclude = ['user']
+        exclude=['profile']
+        fields = ['title', 'project_image','description', 'link', 'profile']
 
 class RatingForm(forms.ModelForm):
     class Meta:

@@ -106,24 +106,31 @@ rel="stylesheet"
             </button>
             <div class="collapse navbar-collapse" id="navbarExample01">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                <a class="nav-link" aria-current="page" href="">Home</a>
+                
+                <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="{% url 'profile_api' %}">
+                        <i class="fa-user-plus">Profile API</i>
+                    </a>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/" rel="nofollow"
-                    target="_blank">API</a>
+
+                <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="{% url 'project_api' %}">
+                        <i class="fa-user-plus">Project API</i>
+                    </a>
+                </li>
+                   
+                       
                 </li>
             </ul>
 
             <ul class="navbar-nav d-flex flex-row">
 
+                {{ profile.user }}
+
                   <!-- Icons -->
-                
-              
-                
                 <li class="nav-item me-3 me-lg-0">
                     <div class="col-8" href="{% url 'newproject' %}"
-                        style="background:white;" >
+                        style="background:white;">
                         <h6 class="text-center" style="margin-top: 10px;text-align:right; font-size:15px; font-weight:bold"><a href="">SUBMIT YOUR SITE!</a></h6>
                     </div>
                     
@@ -154,6 +161,15 @@ rel="stylesheet"
                     <i class="fa-solid fa-right-to-bracket"></i>
                 </a>
                 </li>
+
+                <button class="profile-button">
+                    <div class="profile-button__border"></div>
+                    <a href="{% url 'editprofile' %}">
+                        <div class="profile-button__picture">
+                            <img src="{{ profile_pic.url }}" alt="Profile">
+                        </div>
+                    </a>
+                </button>
 
             </ul>
             </div>

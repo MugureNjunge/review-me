@@ -161,15 +161,17 @@ rel="stylesheet"
                     <i class="fa-solid fa-right-to-bracket"></i>
                 </a>
                 </li>
+                <br>
 
-                <button class="profile-button">
-                    <div class="profile-button__border"></div>
-                    <a href="{% url 'editprofile' %}">
-                        <div class="profile-button__picture">
-                            <img src="{{ profile_pic.url }}" alt="Profile">
-                        </div>
-                    </a>
-                </button>
+                <div class="profile-out">
+                    <li class="profile-button">
+                        <a href="{% url 'editprofile' %}">Profile</a> 
+                        <br>
+                        <a href="{% url 'sign-out' %}">Sign-out</a>                       
+                    </li>
+                </div>
+
+                
 
             </ul>
             </div>

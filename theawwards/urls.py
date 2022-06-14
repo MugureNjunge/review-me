@@ -26,6 +26,8 @@ urlpatterns = [
     path('projects/<int:id>', views.project_detail),
 
     path('search/', views.search, name='search'),
+    path('rating/',views.add_rating, name='rating'),
+    
     
 
 

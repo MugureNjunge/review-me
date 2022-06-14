@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from .models import Profile, Project, Rating
 
+INT_CHOICES= [tuple([x,x]) for x in range(1,10)]
+
 
 class UserRegisterForm(UserCreationForm):
 
@@ -36,11 +38,17 @@ class NewProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        exclude=['profile']
-        fields = ['title', 'project_image','description', 'link', 'profile']
+        fields = ['title', 'project_image','description', 'link']
 
 class RatingForm(forms.ModelForm):
-    class Meta:
-        model=Rating
-        exclude=['overall_score','profile','project']
 
+     class Meta:
+        model = Rating
+        design= forms.IntegerField(label="Design Rates")
+        usability = forms.IntegerField(label="Usability Rates")
+        content = forms.IntegerField(label="Content Rates")
+        
+                
+        widget=forms.Select(choices=INT_CHOICES)
+        exclude =['project','user']
+   

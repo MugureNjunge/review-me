@@ -62,15 +62,18 @@
                             <hr class="text-dark">
                              <div class="media-body">
                               <h5 class="media-heading" style="padding:10px; margin:5px"><b>{{ project.title }}</b></h5>
+                              <h6 class="media-heading" style="padding:10px; margin:5px"><b>{{ project.description }}</b></h6>
+
+                             
                              
                               <h6 class="media-content fs-5" style="padding:10px;">
-                                 <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" class="" style="height: 50px;">
+                                 <img class="img-fluid rounded-circle" src="{{project.profile.profile_pic.url}}" class="" style="height: 50px;width: 50px">
                                   By: <b>{{ project.profile.user }}</b>
                               <div class="text-dark">
                                 
                                 <button class="btn  btn-sm one d-flex justify-content-end  fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:27px;">Votes: {{ rating.votes| floatformat  }}</button>
 
-                                <button class="btn btn-sm three d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">usability: {{ rating.usability| floatformat  }}</button>
+                                <button class="btn btn-sm three d-flex justify-content-end fs-6 " style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">usability: {{ rating.usability| floatformat  }}</button>
 
                                 <button class="btn four d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">content: {{ rating.content| floatformat  }}</button>
                                 
@@ -81,17 +84,51 @@
                                 </a>
                                <br>
                               </div>
+
+                              {% for rating in ratings %}
+                              <div class="bg-white p-2">
+                                  <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{rating.user.project_image.url}}" width="30" height="30">
+                                      <a href="{% url 'project' rating.user %}" style="text-decoration: none;">
+                                      <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{rating.content}} {{rating.usability}} {{rating.design}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
+                                  </div>
+                                  <div class="mt-2">
+                                      <p class="comment-text">{{ rating.project }}</p>
+                                  </div>
+                              </div>
+                          {% endfor %}
+
+                            
                          </div>
                        </div>
                      </div>
                 </div>
               </div>
-            <br>
+             <br>
+
+              <div class="col-md-2 ">
+                <form action="{%url 'rating' %}" method="post" enctype="multipart/form-data" id="sema">
+                  {%csrf_token%}
+                      {{ form|crispy}}
+                      
+                  <button class="btn btn-sm btn-outline-aquamarine btn-block mr-3"style="border-radius: 20px;"type="submit">Cast your vote</button>
+                  <br>
+                </form> 
+
+              </div>
+            
+            
+            
+               
+                    
+                   
+                <br>
+
             <div class="col-2 ml-2" style="border-top: 2px solid #111;background-color: #ffffff;border-radius:10px; box-shadow: 2px 2px 5px rgba(3,3,3,0.5);">
               
           </div>
           <br><br><hr>
         {% endfor %}
+      </div>  
     </div>
     
 </div>

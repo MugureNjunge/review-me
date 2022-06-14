@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from .forms import UserRegisterForm, ProfileForm, NewProjectForm, RatingForm
 from django.contrib.auth.models import User
@@ -134,13 +134,6 @@ def project_detail(request,id, format=None):
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)            
 
-def rating_list(request):
-    ratings = Rating.objects.all()
-    #serialize them
-    serializer = RatingSerializer(ratings, many=True)
-    #return json
-    return JsonResponse({'ratings':serializer.data})
-
 def register(request):
     
     if request.method == "POST":
@@ -186,19 +179,44 @@ def signout(request):
 
     return redirect('sign-in')
 
+# @login_required
+# def NewProject(request):
+    
+    
+#     if request.method == "POST":
+#         form=NewProjectForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             project = form.save(commit=False)
+#             project.user = user
+#             project.save()
+#             return redirect('index')
+#         else:
+#             form=NewProjectForm()
+#         return render(request, 'new-project.html', {"form":form, "user":user})   
+
 @login_required
 def NewProject(request):
-    user = Profile.objects.get(user=request.user)
+    user = request.user
+    profiles = Profile.get_profile()
+    
     if request.method == "POST":
-        form=NewProjectForm(request.POST, request.FILES)
+        form = NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            project = form.save(commit=False)
-            project.user = user
-            project.save()
-            return redirect('index')
-        else:
-            form=NewProjectForm()
-        return render(request, 'new-project.html', {"form":form, "user":user})   
+            project_image = form.cleaned_data.get('project_image')
+            title = form.cleaned_data.get('title')
+            description = form.cleaned_data.get('description')
+            link = form.cleaned_data.get('link')
+            
+            p, created = Project.objects.get_or_create(project_image=project_image, description=description, title=title, user=user)
+           
+            p.save()
+            return redirect('index', request.user.username)
+    else:
+        form = NewProjectForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'new-project.html', context)
 
 def search(request):
     if 'title' in request.GET and request.GET["title"]:
@@ -210,4 +228,27 @@ def search(request):
     else:
         message = "You haven't searched for any project"
         return render(request,'search.html',{"message":message})
+
+@login_required
+def add_rating(request,pk):
+    project = get_object_or_404(Project, pk=pk)
+    current_user = request.user
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            design = form.cleaned_data['design']
+            usability = form.cleaned_data['usability']
+            content = form.cleaned_data['content']
+            review = form.save(commit=False)
+            review.project = project
+            review.user = current_user
+            review.design = design
+            review.usability = usability
+            review.content = content
+            review.save()
+            return redirect('index')
+    else:
+        form = RatingForm()
+        return render(request,'rating.html',{"user":current_user,"form":form})
+
 

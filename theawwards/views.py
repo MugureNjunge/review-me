@@ -38,7 +38,7 @@ def index(request):
     else:
         form = RatingForm()
 
-    return render(request,"index.html",{"projects":projects, "rating":rating,"form": form,"profile":profile})
+    return render(request,"index.html",{"projects":projects, "form": form,"profile":profile})
     
 
 def UserProfile(request,user_id):
@@ -194,4 +194,16 @@ def NewProject(request):
             return redirect('index')
         else:
             form=NewProjectForm()
-        return render(request, 'newproject.html', {"form":form, "user":user})       
+        return render(request, 'newproject.html', {"form":form, "user":user})   
+
+def search(request):
+    if 'title' in request.GET and request.GET["title"]:
+        search_term = request.GET.get("title")
+        message = search_term
+
+        return render(request,'search.html',{"message":message,
+                                             "search_term":search_term})
+    else:
+        message = "You haven't searched for any project"
+        return render(request,'search.html',{"message":message})
+

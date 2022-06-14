@@ -1,32 +1,48 @@
 {% load static %}
-<title>Sign-in</title>
 
-<div class="container">
-
-    <div class="full">
-        <form action="{% url 'sign-in'%}" method="POST">
-        {%csrf_token%}
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input type="text" class="form-control" name="username" aria-describedby="">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" class="btn btn-dark">Submit</button>
+<div class="container mt-5" style="box-shadow: aquamarine 0px 7px 29px 0px; border-radius: 15px; height:400px">
     
-        </form>
-    </div>  
-    
-    <div class="sign-up">
-       Not yet a member? <a href="{% url 'sign-up' %}">Sign up</a>
-    </div>
+     <h1 class="text-center fw-bold">Sign In</h1>
+     
+    <div class="row">
+     
+        <div class="col-md-6 mx-auto">
+            
+            <div class="form-section" style="background-color:#F5F5F5; border-radius:10px; box-shadow: 5px 5px 12px rgba(3,3,3,0.5);padding:15px;">
+             <hr class="text-dark" > 
+                  {%if messages%}
+                    {%for message in messages%}
+                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                              {{message}}
+                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                     {%endfor%}
+                  {%endif%}   
 
-    <div class="col-md-7 mx-0 px-0 log-img-box">
-        <div class="log-img-overlay"></div>
-        <div class="w-100 d-flex justify-content-center">
-            <img class="login-img w-100" src="{% static 'images/background.jpg' %}" alt="">
-        </div>
-    </div>
-</div>
+                <form action="{% url 'sign-in'%}" method="POST">
+                        {%csrf_token%}
+                        <div class="mb-3">
+                          <label for="exampleInputEmail1" class="form-label ">Username</label>
+                           <input type="text" class="form-control"id="username" name="username" aria-describedby="">
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label ">Password</label>
+                          <input type="password" class="form-control" id="password1" name="password">
+                        </div>
+                        <br>
+                      
+                    <button class="btn btn-lg btn-outline-dark btn-block" type="submit">Log In</button>
+                    <p class="mt-3 text-center">Don't have an account? <br><a href="{%url 'sign-up'%}">Sign Up</a></p>
+                    <hr>
+                    <p class="mt-5 mb-3 text-dark text-center"> &copy; 2022 The Awwards</p>
+               </form>
+
+
+                 
+            </div> 
+       </div>
+    
+   </div> 
+       <br>  
+</div> 

@@ -52,11 +52,11 @@
                     <p><span class="profile-real-name"></span>◉Location:  {{profile.location}}</p>
                     {% endif %}
                     {% if profile.url %}
-                    <p><span class="profile-real-name"></span>◉Website: <a href="{{profile.url}}">{{profile.url}}</a></p>
+                    <!-- <p><span class="profile-real-name"></span>◉Website: <a href="{{ profile.url }}">{{profile.url}}</a></p> -->
                     {% endif %}
                     <br><br>
                     <div class="profile-user-settings">
-                        <a  href="{% url 'profile' profile.user %}"  class="btns profiele-edit-btn">Projects</a>
+                        <a  href="{% url 'profile' %}"  class="btns profiele-edit-btn">Projects</a>
                     </div>
                         
                         

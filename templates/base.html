@@ -129,9 +129,9 @@ rel="stylesheet"
 
                   <!-- Icons -->
                 <li class="nav-item me-3 me-lg-0">
-                    <div class="col-8" href="{% url 'newproject' %}"
-                        style="background:white;">
-                        <h6 class="text-center" style="margin-top: 10px;text-align:right; font-size:15px; font-weight:bold"><a href="">SUBMIT YOUR SITE!</a></h6>
+                    
+                    <div class="col-8">
+                       <a href="{% url 'newproject' %}"><button class="btn btn-info btn-sm text-center style margin-top: 10px;text-align:right; font-size:15px; font-weight:bold">SUBMIT YOUR SITE!</button></a>
                     </div>
                     
                 </li>
@@ -144,7 +144,7 @@ rel="stylesheet"
                                     <input type="text" class="form-control" role="search" placeholder="search project" aria-label="Search" name="title">
                                      
                                 </div>
-                            </form>
+                        </form>
                 
                     </div>
                 </li>
@@ -163,13 +163,15 @@ rel="stylesheet"
                 </li>
                 <br>
 
-                <div class="profile-out">
-                    <li class="profile-button">
-                        <a href="{% url 'editprofile' %}">Profile</a> 
-                        <br>
-                        <a href="{% url 'sign-out' %}">Sign-out</a>                       
-                    </li>
-                </div>
+                
+                <div class="col-4">
+                    <a href="{% url 'sign-out' %}"><button class="btn btn-info btn-sm text-center style margin-top: 10px;text-align:right; font-size:15px; font-weight:bold">Sign Out</button></a>
+                    
+                    <a href="{% url 'editprofile' %}"><button class="btn btn-info btn-sm text-center style margin-top: 10px;text-align:right; font-size:15px; font-weight:bold">Profile</button></a>
+
+                    
+                </div>    
+                    
 
                 
 
@@ -190,7 +192,7 @@ rel="stylesheet"
     ></script>
     {% endblock %}
 </body>
-<footer class="bg-dark text-center text-white">
+<footer class="bg-dark text-center text-white" >
   
     <div class="container p-4 pb-0">
         <section class="mb-4">
@@ -216,7 +218,7 @@ rel="stylesheet"
     
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
     © 2022 Copyright:
-    <a class="text-white" href="https://github.com/gladys-gg">Mugure Njunge</a>
+    <a class="text-white" href="https://github.com/MugureNjunge">Mugure Njunge</a>
     </div>
   
 </footer>

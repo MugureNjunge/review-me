@@ -1,3 +1,4 @@
+from django.forms import GenericIPAddressField
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from .forms import UserRegisterForm, ProfileForm, NewProjectForm, RatingForm
@@ -42,25 +43,36 @@ def index(request):
     return render(request,"index.html",{"projects":projects, "form": form,"profile":profile})
     
 
-def UserProfile(request,user_id):
-        profile=Profile.objects.get(id=user_id)
-        context = {'profile':profile}
-        return render(request, 'profile.html', context)
+def UserProfile(request):
+    current_user = request.user()
+    user = current_user
+    projects = Project.search_by_user(user)
+    return render(request, 'profile.html',{'projects':projects})
 
-@login_required
+
 def EditProfile(request):
-    current_user=request.user
-    profile = Profile.objects.filter(id=current_user.id).first()
-    if request.method == 'POST':
-        profileform = ProfileForm(request.POST,request.FILES,instance=profile)
-        if  profileform.is_valid:
-            profileform.save(commit=False)
-            profileform.user=request.user
-            profileform.save()
-            return redirect('index')
+    
+    user = request.user.id
+    # current_user=request.user
+    profile = Profile.objects.get(user_id=user)
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            profile.profile_pic = form.cleaned_data.get('profile_pic')
+            profile.fullname = form.cleaned_data.get('fullname')
+            profile.location = form.cleaned_data.get('location')
+            # profile.url = form.cleaned_data.get('url')
+            profile.bio = form.cleaned_data.get('bio')
+            profile.save()
+            return redirect('profile', profile.user.username)
     else:
-        form=ProfileForm(instance=profile)
-    return render(request,'editprofile.html',{'form':form})        
+        form = ProfileForm(instance=request.user.profile)
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'editprofile.html', context)
 
 #an api to handle the requests
 @api_view(['GET','POST'])
@@ -178,59 +190,38 @@ def signout(request):
     logout(request) 
 
     return redirect('sign-in')
+          
 
-# @login_required
-# def NewProject(request):
-    
-    
-#     if request.method == "POST":
-#         form=NewProjectForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             project = form.save(commit=False)
-#             project.user = user
-#             project.save()
-#             return redirect('index')
-#         else:
-#             form=NewProjectForm()
-#         return render(request, 'new-project.html', {"form":form, "user":user})   
-
-@login_required
 def NewProject(request):
-    user = request.user
-    profiles = Profile.get_profile()
-    
-    if request.method == "POST":
+    current_user = request.user
+    if request.method == 'POST':
         form = NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            project_image = form.cleaned_data.get('project_image')
-            title = form.cleaned_data.get('title')
-            description = form.cleaned_data.get('description')
-            link = form.cleaned_data.get('link')
-            
-            p, created = Project.objects.get_or_create(project_image=project_image, description=description, title=title, user=user)
-           
-            p.save()
-            return redirect('index', request.user.username)
+            project = form.save(commit=False)
+            project.user = current_user
+            project.save()
+        return redirect('index')
+        
     else:
         form = NewProjectForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'new-project.html', context)
+    return render(request, 'new-project.html', {"form":form, "current_user":current_user})
+
 
 def search(request):
     if 'title' in request.GET and request.GET["title"]:
         search_term = request.GET.get("title")
+        searched_project = Project.search_by_projects(search_term)
         message = search_term
 
         return render(request,'search.html',{"message":message,
-                                             "search_term":search_term})
+                                             "searched_project":searched_project})
     else:
         message = "You haven't searched for any project"
-        return render(request,'search.html',{"message":message})
+        return render(request,'search.html',{"message":message})        
 
 @login_required
-def add_rating(request,pk):
+def add_rating(request, *args, **kwargs):
+    pk = kwargs.get('pk')
     project = get_object_or_404(Project, pk=pk)
     current_user = request.user
     if request.method == 'POST':

@@ -26,6 +26,7 @@ class ProfileForm(ModelForm):
 		widgets = {
             'fullname': forms.TextInput(attrs={'class':'form-control'}),
             'bio': forms.Textarea(attrs={'class':'form-control'}),
+            'location': forms.Textarea(attrs={'class':'form-control'}),
         }
 
 class NewProjectForm(forms.ModelForm):

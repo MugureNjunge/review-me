@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse, HttpResponseRedirect
-from .forms import UserRegisterForm, ProfileForm, NewProjectForm
+from .forms import UserRegisterForm, ProfileForm, NewProjectForm, RatingForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -14,7 +14,32 @@ from rest_framework.response import Response
 
 def index(request):
     projects=Project.objects.all()
-    return render(request,'index.html',{'projects':projects})
+    profile=Profile.objects.all()
+
+    current_user = request.user
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            design = form.cleaned_data['design']
+            usability = form.cleaned_data['usability']
+            content = form.cleaned_data['content']
+
+            rating = form.save(commit=False)
+
+            rating.project = projects
+            rating.profile = current_user
+            rating.design = design
+            rating.usability = usability
+            rating.content = content
+            rating.save()
+
+        return redirect('index')
+
+    else:
+        form = RatingForm()
+
+    return render(request,"index.html",{"projects":projects, "rating":rating,"form": form,"profile":profile})
+    
 
 def UserProfile(request,user_id):
         profile=Profile.objects.get(id=user_id)

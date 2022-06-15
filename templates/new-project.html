@@ -19,26 +19,37 @@
 
   <div id="wrapper">
     <div class="container">
-      <div class="phone-app-ddemo"></div>
-      <div class="form-data">
-        <form action="" method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-          <div class="logo">
-            <h3 style="padding: 20px; font-size: 20px;">Submit Project here..</h3>
-          </div>
-		  
-          {{form.title}} <br>
-          {{form.description}} <br>
-          {{form.project_image}} <br>
-          {{form.link}} <br>
+      <div class="row">
+      
+        <div class="phone-app-ddemo col-md-6">
 
-          <button class="form-btn" type="submit">Submit project</button>
+          <img src="{% static 'images/upload.jpg' %}">
+
+        </div>
+
+        <div class="form-data col-md-6">
+          <form action="" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="logo">
+              <h3 style="padding: 10px; font-size: 20px;font-style: italic;">Add your million dollar project..</h3>
+              <hr>
+            </div>
+
+            <div class="form-group font-size:5px">
+
+              {{form.title}} <br>
+              {{form.description}} <br>
+              {{form.project_image}} <br>
+              {{form.link}} <br>
+            </div>  
+
+            <button class="form-btn bg-dark" type="submit">Submit project</button>
+            
+            
+          </form>
           
-          
-        </form>
-        
+        </div>
       </div>
-    </div>
 
   </div>
 

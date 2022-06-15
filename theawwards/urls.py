@@ -18,7 +18,7 @@ urlpatterns = [
     path('sign-out/', views.signout, name='sign-out'),
 
     path('profile/', views.UserProfile, name='profile'),
-    path('profile/edit', views.EditProfile, name='profile/edit'),
+    path('profile/edit', views.EditProfile, name='editprofile'),
     path('newproject', views.NewProject, name='newproject'),
 
     path('search/', views.search, name='search'),

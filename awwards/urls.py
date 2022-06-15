@@ -18,12 +18,10 @@ from django.urls import path, include
 from theawwards import views
 from django.conf import settings
 from django.conf.urls.static import static
+from theawwards.views import UserProfile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('theawwards.urls'))
+    path('', include('theawwards.urls')),
+    
 ]
-
-# if settings.DEBUG:
-#     urlpatterns += static(settings, MEDIA_URL, document_root=settings, MEDIA_ROOT)
-

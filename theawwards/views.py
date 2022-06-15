@@ -49,7 +49,7 @@ def UserProfile(request):
     projects = Project.search_by_user(user)
     return render(request, 'profile.html',{'projects':projects})
 
-
+@login_required(login_url='/accounts/sign-in/')
 def EditProfile(request):
     
     user = request.user.id
@@ -72,7 +72,7 @@ def EditProfile(request):
     context = {
         'form':form,
     }
-    return render(request, 'profile/edit.html', context)
+    return render(request, 'editprofile.html', context)
 
 #an api to handle the requests
 @api_view(['GET','POST'])

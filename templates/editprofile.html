@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
-<link rel="stylesheet" href="{% static 'assets2/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 <title>Edit Profile </title>
 </head>
 
@@ -25,11 +25,12 @@
         <div class="logo">
             <h3 style="padding: 20px; font-size: 20px;">Edit Profile</h3>
         </div>
+        
         {{form.profile_pic}} <br>
         {{form.full_name}} <br>
         {{form.bio}} <br>
         {{form.location}} <br>
-        <!-- {{form.url}} <br> -->
+       
         <button class="form-btn" type="submit">Update Profile</button>
         
         <a href="sign-out.html" class="form-btn" type="submit"></a>

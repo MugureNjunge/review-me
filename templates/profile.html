@@ -21,48 +21,43 @@
     <header>
         <br><br><br>
         <div class="container">
-        
-
-            <div class="profile ">
+                   
             <div class="row">
 
                 <div class="col-md-4 profile-image">
+                    <hr>
 
-                    <img src="{{user.profile.profile_pic.url}}" alt="" style="width: 200px; height: 200px;">
+                    <img src="{{user.profile.profile_pic.url}}" alt="" style="width: 300px; height: 200px;">
 
                 </div>
 
-                <div class="profile-user-settings col">
-
-                    {% if request.user.is_authenticated and request.user == profile.user %}
-                    <a style="text-decoration: none;" href="{% url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
-                    <a style="text-decoration: none;" href="{% url 'sign-out' %}" class="btn profile-edit-btn">Logout</a>
-                    <br>
-                    {% endif %}
-                        
-                        <h6 class="profile-user-name">{{user.profile.fullname}}</h6> <br>
-                        
-                        <!-- <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5> -->
-
-
-                    
-                    <p><span class="profile-real-name"></span>◉Bio: {{user.profile.bio}}</p>
-                    
-                    
-                    <p><span class="profile-real-name"></span>◉Location:  {{user.profile.location}}</p>
-                                        
-                    <br><br>
+                <div class="profile-user-settings col-md-4">
+                
+                    <hr>
                     <div class="profile-user-settings">
-                        <a  href="{% url 'profile' %}"  class="btns profiele-edit-btn">Edit Profile</a>
+                        
+                        <a style="text-decoration: none;" href="{% url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
+                        
+                        <a style="text-decoration: none;" href="{% url 'sign-out' %}" class="btn profile-edit-btn">Sign out</a>
+                        <br>
                     </div>
-                                                                   
-            </div>
 
-                <div class="profile-bio">
+                    <hr>
+
+                    <div class="bio">
+                        <h6 class="profile-user-name">{{user.profile.fullname}}</h6> <br>
+                                            
+                        <p><span class="profile-real-name"></span>◉Bio: {{user.profile.bio}}</p>
+                                            
+                        <p><span class="profile-real-name"></span>◉Location:  {{user.profile.location}}</p>
+                    </div>                    
+                    <br><br>
+
                     
+                                                                   
                 </div>
-            </div>
 
+            </div>
 
                 <div class="profile-stats">
 
@@ -74,11 +69,7 @@
                     
                 </div>
 
-            </div>
-            <!-- End of profile section -->
-
         </div>
-        <!-- End of container -->
 
     </header>
 

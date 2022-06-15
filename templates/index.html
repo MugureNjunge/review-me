@@ -52,13 +52,13 @@
                                   By: <b>{{ project.profile.user }}</b>
                               <div class="text-dark">
                                 
-                                <button class="btn  btn-sm one d-flex justify-content-end  fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:27px;">Votes: {{ rating.votes| floatformat  }}</button>
+                                <button class="btn  btn-sm one d-flex justify-content-end  fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:27px;">Votes {{ rating.votes| floatformat  }}</button>
 
-                                <button class="btn btn-sm three d-flex justify-content-end fs-6 " style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">usability: {{ rating.usability| floatformat  }}</button>
+                                <button class="btn btn-sm three d-flex justify-content-end fs-6 " style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">usability {{ rating.usability| floatformat  }}</button>
 
-                                <button class="btn four d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">content: {{ rating.content| floatformat  }}</button>
+                                <button class="btn four d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">content {{ rating.content| floatformat  }}</button>
                                 
-                                <button class="btn two d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">design: {{ rating.design | floatformat  }}</button>
+                                <button class="btn two d-flex justify-content-end fs-6" style="float:right; padding:10px; margin:5px;color:black;border-radius:25px;">design {{ rating.design | floatformat  }}</button>
 
                                 <a href="/profile/{{project.profile.id}}" title="profile">
                                 <button type="button" class="btn btn-lg " style="border-radius:30px;"><a class="fs-5"href="{{ project.link }}" style="text-decoration:none;padding:10px; margin-top:5px; color:aquamarine;" target="_blank">View Project</a></button>
